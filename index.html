@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco Island</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #071a20;
+  color: white;
+}
+
+header {
+  background: #0b292f;
+  padding: 22px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #24545a;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: #9bc3c5;
+  margin-top: 5px;
+}
+
+.status {
+  padding: 10px 18px;
+  border-radius: 25px;
+  background: #18553e;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 25px;
+}
+
+.hero {
+  text-align: center;
+  padding: 15px 0 25px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin: 5px;
+}
+
+.hero p {
+  color: #9ebfc2;
+  font-size: 17px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: #0d252c;
+  border: 1px solid #20464c;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+/* ISLAND */
+
+.island {
+  height: 430px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  background: linear-gradient(#174454, #0c3039);
+}
+
+.sun {
+  position: absolute;
+  top: 25px;
+  right: 40px;
+  font-size: 50px;
+}
+
+.ocean-wave {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(80, 180, 190, 0.12);
+}
+
+.land {
+  position: absolute;
+  width: 72%;
+  height: 70%;
+  left: 14%;
+  top: 17%;
+  background: #315e45;
+  border-radius: 48% 52% 45% 55%;
+  transform: rotate(-5deg);
+  box-shadow: 0 0 25px rgba(0,0,0,.3);
+}
+
+.building {
+  position: absolute;
+  z-index: 3;
+  min-width: 100px;
+  padding: 9px;
+  text-align: center;
+  background: #102c35;
+  border: 2px solid #55c993;
+  border-radius: 12px;
+  font-size: 12px;
+  transition: .3s;
+}
+
+.building span {
+  display: block;
+  font-size: 27px;
+  margin-bottom: 3px;
+}
+
+.building.off {
+  border-color: #e86f64;
+  opacity: .6;
+}
+
+.building.reduce {
+  border-color: #f2c75c;
+}
+
+.solar {
+  left: 10%;
+  top: 27%;
+}
+
+.hospital {
+  left: 39%;
+  top: 27%;
+}
+
+.battery {
+  right: 8%;
+  top: 25%;
+}
+
+.homes {
+  left: 22%;
+  bottom: 13%;
+}
+
+.water {
+  left: 51%;
+  bottom: 12%;
+}
+
+.farm {
+  right: 9%;
+  bottom: 25%;
+}
+
+/* METRICS */
+
+.metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.metric {
+  background: #102f37;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.metric-title {
+  color: #9bb9bd;
+  font-size: 13px;
+}
+
+.metric-value {
+  font-size: 26px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.bar {
+  height: 8px;
+  background: #28464d;
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: #57ca91;
+  border-radius: 10px;
+  transition: width 1s;
+}
+
+/* SCORE */
+
+.score {
+  text-align: center;
+  padding: 10px;
+}
+
+.score-number {
+  font-size: 70px;
+  font-weight: bold;
+  color: #61d29b;
+}
+
+.score-label {
+  color: #91adb1;
+}
+
+/* BUTTONS */
+
+button {
+  border: none;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+  transition: .2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.storm {
+  background: #e8786d;
+  color: white;
+}
+
+.ai {
+  background: #5dce9b;
+  color: #062016;
+}
+
+.reset {
+  background: #27464d;
+  color: white;
+}
+
+/* ALERT */
+
+.alert {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #163d31;
+  border: 1px solid #2d775d;
+  color: #9be3bc;
+}
+
+.alert.danger {
+  background: #472827;
+  border-color: #9b4d47;
+  color: #ffaaa2;
+}
+
+/* AI */
+
+.ai-box {
+  background: #102e37;
+  padding: 18px;
+  border-radius: 12px;
+  line-height: 1.7;
+}
+
+.green {
+  color: #62d39a;
+}
+
+.yellow {
+  color: #f2ce67;
+}
+
+.red {
+  color: #ff8279;
+}
+
+.decision {
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 9px;
+  background: #17353e;
+}
+
+/* CASCADE CHAIN */
+
+.chain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.step {
+  padding: 12px;
+  background: #16343d;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.arrow {
+  color: #f3c85e;
+  font-weight: bold;
+}
+
+/* PRIORITIES */
+
+.priority {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  margin: 7px 0;
+  border-radius: 9px;
+  background: #14323b;
+}
+
+footer {
+  text-align: center;
+  color: #66888e;
+  padding: 30px;
+}
+
+@media(max-width: 850px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div>
+    <div class="logo">🌱 Eco Island</div>
+    <div class="subtitle">Smart Village Emergency Management</div>
+  </div>
+
+  <div class="status" id="status">
+    🟢 NORMAL MODE
+  </div>
+
+</header>
+
+
+<div class="container">
+
+  <div class="hero">
+
+    <h1>🏝️ Welcome to Eco Island</h1>
+
+    <p>
+      A smarter village that prepares for emergencies before
+      small problems become major crises.
+    </p>
+
+  </div>
+
+
+  <div class="grid">
+
+    <!-- ISLAND MAP -->
+
+    <div class="card">
+
+      <h2>🗺️ Island Command Center</h2>
+
+      <div class="island">
+
+        <div class="sun" id="sun">☀️</div>
+
+        <div class="land"></div>
+
+        <div class="ocean-wave"></div>
+
+
+        <div class="building solar" id="solarBuilding">
+          <span>☀️</span>
+          Solar Farm
+          <br>
+          <b id="solarStatus">ONLINE</b>
+        </div>
+
+
+        <div class="building hospital" id="hospitalBuilding">
+          <span>🏥</span>
+          Emergency Center
+          <br>
+          <b>PROTECTED</b>
+        </div>
+
+
+        <div class="building battery" id="batteryBuilding">
+          <span>🔋</span>
+          Battery
+          <br>
+          <b id="batteryStatus">72%</b>
+        </div>
+
+
+        <div class="building homes" id="homesBuilding">
+          <span>🏠</span>
+          Smart Homes
+          <br>
+          <b id="homesStatus">NORMAL</b>
+        </div>
+
+
+        <div class="building water" id="waterBuilding">
+          <span>💧</span>
+          Water Plant
+          <br>
+          <b id="waterStatus">ONLINE</b>
+        </div>
+
+
+        <div class="building farm" id="farmBuilding">
+          <span>🌱</span>
+          Farm
+          <br>
+          <b id="farmStatus">NORMAL</b>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- DATA -->
+
+    <div>
+
+      <div class="card">
+
+        <h2>📡 Live Island Data</h2>
+
+        <div class="metrics">
+
+          <div class="metric">
+            <div class="metric-title">☀️ Solar Production</div>
+            <div class="metric-value" id="solarValue">82%</div>
+
+            <div class="bar">
+              <div class="fill" id="solarBar" style="width:82%"></div>
+            </div>
+          </div>
+
+
+          <div class="metric">
+            <div class="metric-title">🌬️ Wind</div>
+            <div class="metric-value" id="windValue">18 mph</div>
+
+            <div class="bar">
+              <div class="fill" id="windBar" style="width:30%"></div>
+            </div>
+          </div>
+
+
+          <div class="metric">
+            <div class="metric-title">🔋 Battery</div>
+            <div class="metric-value" id="batteryValue">72%</div>
+
+            <div class="bar">
+              <div class="fill" id="batteryBar" style="width:72%"></div>
+            </div>
+          </div>
+
+
+          <div class="metric">
+            <div class="metric-title">💧 Water</div>
+            <div class="metric-value" id="waterValue">81%</div>
+
+            <div class="bar">
+              <div class="fill" id="waterBar" style="width:81%"></div>
+            </div>
+          </div>
+
+
+          <div class="metric">
+            <div class="metric-title">⚡ Energy Demand</div>
+            <div class="metric-value" id="energyValue">61%</div>
+
+            <div class="bar">
+              <div class="fill" id="energyBar" style="width:61%"></div>
+            </div>
+          </div>
+
+
+          <div class="metric">
+            <div class="metric-title">🌡️ Temperature</div>
+            <div class="metric-value" id="tempValue">78°F</div>
+
+            <div class="bar">
+              <div class="fill" id="tempBar" style="width:60%"></div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="alert" id="alert">
+          🟢 All island systems are operating normally.
+        </div>
+
+
+        <div style="margin-top:15px;">
+
+          <button class="storm" onclick="simulateStorm()">
+            🌪️ Simulate Storm
+          </button>
+
+          <button class="ai" onclick="runAI()">
+            🤖 Run Eco Island AI
+          </button>
+
+          <button class="reset" onclick="resetIsland()">
+            🔄 Reset
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- SCORE -->
+
+      <div class="card">
+
+        <h2>🏝️ Island Survival</h2>
+
+        <div class="score">
+
+          <div class="score-number" id="score">
+            92%
+          </div>
+
+          <div class="score-label">
+            Overall Island Resilience
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- PROBLEM CHAIN -->
+
+  <div class="card">
+
+    <h2>🔗 Potential Emergency Chain</h2>
+
+    <div class="chain">
+
+      <div class="step">🌪️ Storm</div>
+
+      <div class="arrow">→</div>
+
+      <div class="step">☀️ Solar ↓</div>
+
+      <div class="arrow">→</div>
+
+      <div class="step">⚡ Energy Shortage</div>
+
+      <div class="arrow">→</div>
+
+      <div class="step">🔋 Battery ↓</div>
+
+      <div class="arrow">→</div>
+
+      <div class="step">💧 Water Risk</div>
+
+    </div>
+
+    <p>
+      Eco Island monitors these connections and tries to stop
+      the chain reaction before it reaches essential services.
+    </p>
+
+  </div>
+
+
+  <!-- AI RESPONSE -->
+
+  <div class="card">
+
+    <h2>🤖 Eco Island AI</h2>
+
+    <div class="ai-box" id="aiBox">
+
+      <span class="green">SYSTEM READY</span>
+
+      <br><br>
+
+      Eco Island is monitoring the village.
+
+      <br><br>
+
+      If an emergency is detected, the system will analyze
+      available resources and prioritize essential services.
+
+    </div>
+
+  </div>
+
+
+  <!-- PRIORITIES -->
+
+  <div class="card">
+
+    <h2>🛡️ Emergency Resource Priorities</h2>
+
+    <div class="priority">
+      <span>🏥 Emergency Center</span>
+      <span class="green">100% POWER</span>
+    </div>
+
+    <div class="priority">
+      <span>💧 Water Plant</span>
+      <span class="green">PROTECTED</span>
+    </div>
+
+    <div class="priority">
+      <span>🏠 Smart Homes</span>
+      <span class="yellow">ENERGY SAVER</span>
+    </div>
+
+    <div class="priority">
+      <span>🌱 Farm</span>
+      <span class="yellow">REDUCED</span>
+    </div>
+
+    <div class="priority">
+      <span>🚗 EV Charging</span>
+      <span class="red">PAUSED</span>
+    </div>
+
+    <div class="priority">
+      <span>💡 Nonessential Lighting</span>
+      <span class="red">REDUCED</span>
+    </div>
+
+  </div>
+
+</div>
+
+
+<footer>
+  🌱 Eco Island — Building smarter, more resilient communities.
+</footer>
+
+
+<script>
+
+function simulateStorm() {
+
+  /* CHANGE MODE */
+
+  document.getElementById("status").innerHTML =
+    "🔴 EMERGENCY MODE";
+
+  document.getElementById("status").style.background =
+    "#542d2b";
+
+
+  /* CHANGE WEATHER */
+
+  document.getElementById("solarValue").innerHTML = "18%";
+  document.getElementById("solarBar").style.width = "18%";
+
+  document.getElementById("windValue").innerHTML = "55 mph";
+  document.getElementById("windBar").style.width = "90%";
+
+  document.getElementById("batteryValue").innerHTML = "48%";
+  document.getElementById("batteryBar").style.width = "48%";
+
+  document.getElementById("waterValue").innerHTML = "58%";
+  document.getElementById("waterBar").style.width = "58%";
+
+  document.getElementById("energyValue").innerHTML = "91%";
+  document.getElementById("energyBar").style.width = "91%";
+
+  document.getElementById("tempValue").innerHTML = "86°F";
+
+
+  /* BUILDING CHANGES */
+
+  document.getElementById("solarBuilding").classList.add("off");
+
+  document.getElementById("homesBuilding").classList.add("reduce");
+
+  document.getElementById("farmBuilding").classList.add("reduce");
+
+
+  document.getElementById("solarStatus").innerHTML =
+    "18% OUTPUT";
+
+  document.getElementById("homesStatus").innerHTML =
+    "ENERGY SAVER";
+
+  document.getElementById("farmStatus").innerHTML =
+    "REDUCED";
+
+
+  /* ALERT */
+
+  document.getElementById("alert").classList.add("danger");
+
+  document.getElementById("alert").innerHTML =
+    "🚨 STORM DETECTED! Renewable energy has dropped and energy demand is rising.";
+
+
+  /* SCORE */
+
+  document.getElementById("score").innerHTML =
+    "54%";
+
+
+  /* AI MESSAGE */
+
+  document.getElementById("aiBox").innerHTML =
+
+    "<span class='yellow'>⚠️ POTENTIAL CASCADE DETECTED</span>" +
+
+    "<br><br>" +
+
+    "The storm has reduced solar production from <b>82%</b> to <b>18%</b>." +
+
+    "<br><br>" +
+
+    "Energy demand has increased to <b>91%</b>. If normal energy use continues, the battery could become critically low." +
+
+    "<br><br>" +
+
+    "<b>Eco Island recommends activating Emergency Mode.</b>" +
+
+    "<br><br>" +
+
+    "Click <b>🤖 Run Eco Island AI</b> to apply the response.";
+
+}
+
+
+function runAI() {
+
+  /* EMERGENCY RESPONSE */
+
+  document.getElementById("status").innerHTML =
+    "🟢 AI CONTROL ACTIVE";
+
+  document.getElementById("status").style.background =
+    "#18553e";
+
+
+  /* RESOURCE CHANGES */
+
+  document.getElementById("batteryValue").innerHTML =
+    "64%";
+
+  document.getElementById("batteryBar").style.width =
+    "64%";
+
+
+  document.getElementById("waterValue").innerHTML =
+    "76%";
+
+  document.getElementById("waterBar").style.width =
+    "76%";
+
+
+  document.getElementById("energyValue").innerHTML =
+    "63%";
+
+  document.getElementById("energyBar").style.width =
+    "63%";
+
+
+  /* BUILDING STATUS */
+
+  document.getElementById("hospitalBuilding").style.borderColor =
+    "#5bd39b";
+
+  document.getElementById("waterBuilding").style.borderColor =
+    "#5bd39b";
+
+  document.getElementById("homesBuilding").classList.remove("reduce");
+
+  document.getElementById("homesBuilding").classList.add("reduce");
+
+  document.getElementById("farmBuilding").classList.remove("reduce");
+
+  document.getElementById("farmBuilding").classList.add("reduce");
+
+
+  document.getElementById("waterStatus").innerHTML =
+    "PROTECTED";
+
+  document.getElementById("homesStatus").innerHTML =
+    "ENERGY SAVER";
+
+  document.getElementById("farmStatus").innerHTML =
+    "REDUCED";
+
+
+  /* SCORE */
+
+  document.getElementById("score").innerHTML =
+    "86%";
+
+
+  /* ALERT */
+
+  document.getElementById("alert").classList.remove("danger");
+
+  document.getElementById("alert").innerHTML =
+    "✅ CASCADE CONTAINED! Eco Island prevented the predicted resource chain reaction.";
+
+
+  /* AI EXPLANATION */
+
+  document.getElementById("aiBox").innerHTML =
+
+    "<span class='green'>🤖 OPTIMAL RESPONSE SELECTED</span>" +
+
+    "<br><br>" +
+
+    "<b>Eco Island analyzed:</b>" +
+
+    "<br>☀️ Solar production" +
+
+    "<br>🔋 Battery reserves" +
+
+    "<br>⚡ Energy demand" +
+
+    "<br>💧 Water availability" +
+
+    "<br>🏥 Service priorities" +
+
+    "<br><br>" +
+
+    "<b>AI ACTIONS:</b>" +
+
+    "<div class='decision'>" +
+
+    "🏥 <span class='green'>Emergency Center:</span> Full power" +
+
+    "<br>" +
+
+    "💧 <span class='green'>Water Plant:</span> Protected" +
+
+    "<br>" +
+
+    "🏠 <span class='yellow'>Homes:</span> Energy-saving mode" +
+
+    "<br>" +
+
+    "🌱 <span class='yellow'>Farm:</span> Reduced usage" +
+
+    "<br>" +
+
+    "🚗 <span class='red'>EV Charging:</span> Paused" +
+
+    "<br>" +
+
+    "💡 <span class='red'>Nonessential Lighting:</span> Reduced" +
+
+    "</div>" +
+
+    "<br>" +
+
+    "<b>WHY?</b> Eco Island protects the services that are most important to community survival while conserving enough battery energy for the rest of the storm." +
+
+    "<br><br>" +
+
+    "<span class='green'><b>Result: Island Survival increased from 54% → 86%.</b></span>";
+
+}
+
+
+function resetIsland() {
+
+  location.reload();
+
+}
+
+</script>
+
+</body>
+</html>
