@@ -1,0 +1,2539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco Island</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #071a20;
+  color: white;
+}
+
+header {
+  background: #0b292f;
+  padding: 22px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #24545a;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: #9bbfc2;
+  margin-top: 5px;
+}
+
+.status {
+  padding: 10px 18px;
+  border-radius: 25px;
+  background: #18553e;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 25px;
+}
+
+.hero {
+  text-align: center;
+  padding: 10px 0 25px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  margin-bottom: 8px;
+}
+
+.hero p {
+  color: #9bbfc2;
+  font-size: 17px;
+}
+
+.card {
+  background: #0d252c;
+  border: 1px solid #20464c;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+/* DROPDOWN */
+
+select {
+  width: 100%;
+  padding: 16px;
+  background: #102f37;
+  color: white;
+  border: 2px solid #28545c;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #5bd39b;
+}
+
+/* INFO */
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.info {
+  background: #102f37;
+  padding: 17px;
+  border-radius: 12px;
+}
+
+.label {
+  color: #8eafb4;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.value {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+/* DASHBOARD */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.3fr .8fr;
+  gap: 20px;
+}
+
+/* ISLAND */
+
+.island {
+  height: 430px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  background: linear-gradient(#174454, #0c3039);
+}
+
+.sun {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  font-size: 50px;
+}
+
+.land {
+  position: absolute;
+  width: 70%;
+  height: 68%;
+  left: 15%;
+  top: 18%;
+  background: #315e45;
+  border-radius: 48% 52% 45% 55%;
+  transform: rotate(-5deg);
+}
+
+.building {
+  position: absolute;
+  z-index: 3;
+  min-width: 95px;
+  padding: 9px;
+  text-align: center;
+  background: #102c35;
+  border: 2px solid #55c993;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.building span {
+  display: block;
+  font-size: 27px;
+}
+
+.solar {
+  left: 8%;
+  top: 27%;
+}
+
+.hospital {
+  left: 39%;
+  top: 25%;
+}
+
+.battery {
+  right: 7%;
+  top: 27%;
+}
+
+.homes {
+  left: 20%;
+  bottom: 13%;
+}
+
+.water {
+  left: 50%;
+  bottom: 12%;
+}
+
+.farm {
+  right: 7%;
+  bottom: 25%;
+}
+
+/* METRICS */
+
+.metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.metric {
+  background: #102f37;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.metric-title {
+  color: #9bb9bd;
+  font-size: 13px;
+}
+
+.metric-value {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.bar {
+  height: 8px;
+  background: #28464d;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.fill {
+  height: 100%;
+  background: #57ca91;
+  border-radius: 10px;
+  transition: 1s;
+}
+
+/* BUTTONS */
+
+button {
+  border: none;
+  padding: 13px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
+  margin-right: 5px;
+}
+
+.storm {
+  background: #e8786d;
+  color: white;
+}
+
+.ai {
+  background: #5dce9b;
+  color: #062016;
+}
+
+.reset {
+  background: #28464d;
+  color: white;
+}
+
+/* ALERT */
+
+.alert {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #163d31;
+  color: #9be3bc;
+}
+
+.danger {
+  background: #472827;
+  color: #ffaaa2;
+}
+
+/* SCORE */
+
+.score {
+  text-align: center;
+}
+
+.scoreNumber {
+  font-size: 65px;
+  font-weight: bold;
+  color: #5ed39a;
+}
+
+/* AI */
+
+.aiBox {
+  background: #102e37;
+  padding: 18px;
+  border-radius: 12px;
+  line-height: 1.7;
+}
+
+.green {
+  color: #63d39a;
+}
+
+.yellow {
+  color: #f1ca61;
+}
+
+.red {
+  color: #ff8178;
+}
+
+/* CASCADE */
+
+.chain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.step {
+  background: #16343d;
+  padding: 11px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.arrow {
+  color: #f1ca61;
+}
+
+footer {
+  text-align: center;
+  color: #65878c;
+  padding: 30px;
+}
+
+@media(max-width:900px) {
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+@media(max-width:600px) {
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+}
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+  <div>
+    <div class="logo">🌱 Eco Island</div>
+
+    <div class="subtitle">
+      Smart Island Resource & Emergency System
+    </div>
+  </div>
+
+  <div class="status" id="status">
+    🟢 NORMAL MODE
+  </div>
+
+</header>
+
+
+<div class="container">
+
+
+<div class="hero">
+
+  <h1>🏝️ Eco Island</h1>
+
+  <p>
+    Choose an island to discover its environmental risks,
+    resources, and personalized emergency plan.
+  </p>
+
+</div>
+
+
+<!-- ISLAND SELECTOR -->
+
+<div class="card">
+
+  <h2>🌍 Select an Island</h2>
+
+  <select id="islandSelect" onchange="chooseIsland()">
+
+    <option value="bali">🇮🇩 Bali</option>
+    <option value="maldives">🇲🇻 Maldives</option>
+    <option value="hawaii">🇺🇸 Hawaii</option>
+    <option value="iceland">🇮🇸 Iceland</option>
+    <option value="greenland">🇬🇱 Greenland</option>
+    <option value="madagascar">🇲🇬 Madagascar</option>
+    <option value="sriLanka">🇱🇰 Sri Lanka</option>
+    <option value="jamaica">🇯🇲 Jamaica</option>
+    <option value="cuba">🇨🇺 Cuba</option>
+    <option value="cyprus">🇨🇾 Cyprus</option>
+    <option value="crete">🇬🇷 Crete</option>
+    <option value="sardinia">🇮🇹 Sardinia</option>
+    <option value="sicily">🇮🇹 Sicily</option>
+    <option value="corsica">🇫🇷 Corsica</option>
+    <option value="tasmania">🇦🇺 Tasmania</option>
+    <option value="northIsland">🇳🇿 North Island</option>
+    <option value="southIsland">🇳🇿 South Island</option>
+    <option value="borneo">🌏 Borneo</option>
+    <option value="java">🇮🇩 Java</option>
+    <option value="sumatra">🇮🇩 Sumatra</option>
+    <option value="sulawesi">🇮🇩 Sulawesi</option>
+    <option value="palawan">🇵🇭 Palawan</option>
+    <option value="luzon">🇵🇭 Luzon</option>
+    <option value="mindanao">🇵🇭 Mindanao</option>
+    <option value="okinawa">🇯🇵 Okinawa</option>
+    <option value="honshu">🇯🇵 Honshu</option>
+    <option value="kyushu">🇯🇵 Kyushu</option>
+    <option value="shikoku">🇯🇵 Shikoku</option>
+    <option value="taiwan">🇹🇼 Taiwan</option>
+    <option value="puertoRico">🇵🇷 Puerto Rico</option>
+    <option value="bermuda">🇧🇲 Bermuda</option>
+    <option value="bahamas">🇧🇸 The Bahamas</option>
+    <option value="barbados">🇧🇧 Barbados</option>
+    <option value="trinidad">🇹🇹 Trinidad</option>
+    <option value="dominica">🇩🇲 Dominica</option>
+    <option value="grenada">🇬🇩 Grenada</option>
+    <option value="fiji">🇫🇯 Fiji</option>
+    <option value="samoa">🇼🇸 Samoa</option>
+    <option value="tonga">🇹🇴 Tonga</option>
+    <option value="tahiti">🇵🇫 Tahiti</option>
+    <option value="guam">🇬🇺 Guam</option>
+    <option value="seychelles">🇸🇨 Seychelles</option>
+    <option value="mauritius">🇲🇺 Mauritius</option>
+    <option value="zanzibar">🇹🇿 Zanzibar</option>
+    <option value="crete2">🇬🇷 Rhodes</option>
+    <option value="corfu">🇬🇷 Corfu</option>
+    <option value="mykonos">🇬🇷 Mykonos</option>
+    <option value="santorini">🇬🇷 Santorini</option>
+    <option value="creteIsland">🇬🇷 Crete</option>
+    <option value="mallorca">🇪🇸 Mallorca</option>
+    <option value="ibiza">🇪🇸 Ibiza</option>
+    <option value="canary">🇪🇸 Canary Islands</option>
+    <option value="azores">🇵🇹 Azores</option>
+    <option value="madeira">🇵🇹 Madeira</option>
+    <option value="man">🇮🇲 Isle of Man</option>
+    <option value="vancouver">🇨🇦 Vancouver Island</option>
+    <option value="newfoundland">🇨🇦 Newfoundland</option>
+    <option value="longIsland">🇺🇸 Long Island</option>
+    <option value="capeBreton">🇨🇦 Cape Breton Island</option>
+
+  </select>
+
+</div>
+
+
+<!-- INFORMATION -->
+
+<div class="card">
+
+  <h2 id="islandName">
+    🇮🇩 Bali
+  </h2>
+
+  <p id="description">
+    A tropical island known for agriculture, tourism,
+    forests, and volcanic landscapes.
+  </p>
+
+
+  <div class="infoGrid">
+
+    <div class="info">
+
+      <div class="label">
+        CLIMATE
+      </div>
+
+      <div class="value"
+      id="climate">
+        Tropical
+      </div>
+
+    </div>
+
+
+    <div class="info">
+
+      <div class="label">
+        POPULATION
+      </div>
+
+      <div class="value"
+      id="population">
+        4.4 million
+      </div>
+
+    </div>
+
+
+    <div class="info">
+
+      <div class="label">
+        MAIN RESOURCE
+      </div>
+
+      <div class="value"
+      id="resource">
+        Agriculture
+      </div>
+
+    </div>
+
+
+    <div class="info">
+
+      <div class="label">
+        BIGGEST RISK
+      </div>
+
+      <div class="value"
+      id="risk">
+        🌋 Volcanic activity
+      </div>
+
+    </div>
+
+
+    <div class="info">
+
+      <div class="label">
+        RENEWABLE ENERGY
+      </div>
+
+      <div class="value"
+      id="renewable">
+        ☀️ Solar
+      </div>
+
+    </div>
+
+
+    <div class="info">
+
+      <div class="label">
+        PRIORITY
+      </div>
+
+      <div class="value"
+      id="priority">
+        🏥 Emergency services
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div class="grid">
+
+
+<div class="card">
+
+  <h2>🗺️ Island Command Center</h2>
+
+  <div class="island">
+
+    <div class="sun">
+      ☀️
+    </div>
+
+    <div class="land"></div>
+
+
+    <div class="building solar">
+
+      <span>☀️</span>
+
+      Energy
+
+      <br>
+
+      <b id="solarStatus">
+        ONLINE
+      </b>
+
+    </div>
+
+
+    <div class="building hospital">
+
+      <span>🏥</span>
+
+      Emergency
+
+      <br>
+
+      <b>
+        PROTECTED
+      </b>
+
+    </div>
+
+
+    <div class="building battery">
+
+      <span>🔋</span>
+
+      Battery
+
+      <br>
+
+      <b id="batteryStatus">
+        72%
+      </b>
+
+    </div>
+
+
+    <div class="building homes">
+
+      <span>🏠</span>
+
+      Homes
+
+      <br>
+
+      <b id="homesStatus">
+        NORMAL
+      </b>
+
+    </div>
+
+
+    <div class="building water">
+
+      <span>💧</span>
+
+      Water
+
+      <br>
+
+      <b id="waterStatus">
+        ONLINE
+      </b>
+
+    </div>
+
+
+    <div class="building farm">
+
+      <span>🌱</span>
+
+      Food
+
+      <br>
+
+      <b id="farmStatus">
+        NORMAL
+      </b>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- DATA -->
+
+<div>
+
+<div class="card">
+
+<h2>📡 Live Island Data</h2>
+
+<div class="metrics">
+
+
+<div class="metric">
+
+<div class="metric-title">
+☀️ Solar
+</div>
+
+<div class="metric-value"
+id="solarValue">
+82%
+</div>
+
+<div class="bar">
+
+<div class="fill"
+id="solarBar"
+style="width:82%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-title">
+🌬️ Wind
+</div>
+
+<div class="metric-value"
+id="windValue">
+18 mph
+</div>
+
+<div class="bar">
+
+<div class="fill"
+id="windBar"
+style="width:30%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-title">
+🔋 Battery
+</div>
+
+<div class="metric-value"
+id="batteryValue">
+72%
+</div>
+
+<div class="bar">
+
+<div class="fill"
+id="batteryBar"
+style="width:72%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-title">
+💧 Water
+</div>
+
+<div class="metric-value"
+id="waterValue">
+81%
+</div>
+
+<div class="bar">
+
+<div class="fill"
+id="waterBar"
+style="width:81%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-title">
+⚡ Energy Demand
+</div>
+
+<div class="metric-value"
+id="energyValue">
+61%
+</div>
+
+<div class="bar">
+
+<div class="fill"
+id="energyBar"
+style="width:61%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="metric">
+
+<div class="metric-title">
+🌡️ Temperature
+</div>
+
+<div class="metric-value"
+id="tempValue">
+80°F
+</div>
+
+</div>
+
+</div>
+
+
+<div class="alert"
+id="alert">
+
+🟢 Island conditions are stable.
+
+</div>
+
+
+<button class="storm"
+onclick="simulateEmergency()">
+
+🚨 Simulate Emergency
+
+</button>
+
+
+<button class="ai"
+onclick="runAI()">
+
+🤖 Run Eco Island AI
+
+</button>
+
+
+<button class="reset"
+onclick="resetIsland()">
+
+🔄 Reset
+
+</button>
+
+
+</div>
+
+
+<div class="card">
+
+<h2>
+🏝️ Island Resilience
+</h2>
+
+<div class="score">
+
+<div class="scoreNumber"
+id="score">
+
+92%
+
+</div>
+
+<p>
+Overall survival score
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CASCADE -->
+
+<div class="card">
+
+<h2>
+🔗 Emergency Cascade
+</h2>
+
+<div class="chain">
+
+<div class="step"
+id="chain1">
+🌪️ Emergency
+</div>
+
+<div class="arrow">
+→
+</div>
+
+<div class="step"
+id="chain2">
+⚡ Energy ↓
+</div>
+
+<div class="arrow">
+→
+</div>
+
+<div class="step"
+id="chain3">
+🔋 Battery ↓
+</div>
+
+<div class="arrow">
+→
+</div>
+
+<div class="step"
+id="chain4">
+💧 Critical Resource
+</div>
+
+</div>
+
+<p id="chainDescription">
+
+Eco Island watches for problems that can spread
+from one system to another.
+
+</p>
+
+</div>
+
+
+<!-- AI -->
+
+<div class="card">
+
+<h2>
+🤖 Eco Island AI
+</h2>
+
+<div class="aiBox"
+id="aiBox">
+
+<span class="green">
+SYSTEM READY
+</span>
+
+<br><br>
+
+Choose an island above.
+
+Eco Island will analyze that island's
+unique environment and create a personalized
+emergency strategy.
+
+</div>
+
+</div>
+
+
+<!-- RESPONSE -->
+
+<div class="card">
+
+<h2>
+🛡️ Emergency Resource Plan
+</h2>
+
+<div class="aiBox"
+id="priorities">
+
+🏥 Emergency services →
+<span class="green">PROTECTED</span>
+
+<br>
+
+💧 Water →
+<span class="green">PROTECTED</span>
+
+<br>
+
+🏠 Homes →
+<span class="yellow">ENERGY SAVER</span>
+
+<br>
+
+🌱 Food →
+<span class="yellow">REDUCED</span>
+
+<br>
+
+🚗 Nonessential transportation →
+<span class="red">PAUSED</span>
+
+<br>
+
+💡 Nonessential energy →
+<span class="red">REDUCED</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<footer>
+
+🌱 Eco Island
+
+<br>
+
+Smart decisions for resilient island communities.
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   ISLAND DATABASE
+========================================== */
+
+const islands = {
+
+bali: {
+name:"🇮🇩 Bali",
+description:"A tropical island known for agriculture, tourism, forests, and volcanic landscapes.",
+climate:"Tropical",
+population:"4.4 million",
+resource:"Agriculture",
+risk:"🌋 Volcanic activity",
+renewable:"☀️ Solar",
+priority:"🏥 Emergency services",
+solar:82,
+wind:18,
+battery:72,
+water:81,
+demand:61,
+temperature:"80°F",
+emergency:"🌋 Volcanic emergency",
+response:"Protect hospitals, evacuation routes, clean water, and emergency communication."
+},
+
+maldives: {
+name:"🇲🇻 Maldives",
+description:"A low-lying island nation especially vulnerable to flooding, storms, and sea-level rise.",
+climate:"Tropical",
+population:"500,000+",
+resource:"Water + Tourism",
+risk:"🌊 Flooding",
+renewable:"☀️ Solar",
+priority:"💧 Fresh water",
+solar:82,
+wind:18,
+battery:72,
+water:81,
+demand:61,
+temperature:"84°F",
+emergency:"🌊 Storm surge",
+response:"Protect fresh water, hospitals, batteries, and evacuation shelters."
+},
+
+hawaii: {
+name:"🇺🇸 Hawaii",
+description:"A volcanic island chain with tropical ecosystems and strong renewable-energy potential.",
+climate:"Tropical",
+population:"1.4 million",
+resource:"Tourism + Agriculture",
+risk:"🌋 Volcanoes",
+renewable:"☀️ Solar + 🌬️ Wind",
+priority:"🏥 Hospitals",
+solar:88,
+wind:40,
+battery:75,
+water:78,
+demand:67,
+temperature:"82°F",
+emergency:"🌋 Volcanic eruption",
+response:"Protect evacuation routes, hospitals, communication systems, and water supplies."
+},
+
+iceland: {
+name:"🇮🇸 Iceland",
+description:"A volcanic island with abundant geothermal and hydropower resources.",
+climate:"Cold",
+population:"400,000",
+resource:"Geothermal energy",
+risk:"🌋 Volcanic activity",
+renewable:"♨️ Geothermal",
+priority:"⚡ Energy",
+solar:35,
+wind:60,
+battery:80,
+water:94,
+demand:55,
+temperature:"45°F",
+emergency:"🌋 Volcanic activity",
+response:"Protect geothermal infrastructure, roads, communications, and emergency shelters."
+},
+
+greenland: {
+name:"🇬🇱 Greenland",
+description:"The world's largest island, dominated by ice and exposed to extreme Arctic conditions.",
+climate:"Arctic",
+population:"57,000",
+resource:"Fresh water",
+risk:"❄️ Extreme cold",
+renewable:"💨 Wind",
+priority:"🔥 Heating",
+solar:20,
+wind:65,
+battery:70,
+water:95,
+demand:82,
+temperature:"18°F",
+emergency:"❄️ Extreme cold",
+response:"Prioritize heating, medical facilities, communications, and backup energy."
+},
+
+madagascar: {
+name:"🇲🇬 Madagascar",
+description:"A biodiversity hotspot with forests, farms, and coastal communities.",
+climate:"Tropical",
+population:"30 million",
+resource:"Agriculture",
+risk:"🌀 Cyclones",
+renewable:"☀️ Solar",
+priority:"🌾 Food",
+solar:85,
+wind:30,
+battery:60,
+water:72,
+demand:58,
+temperature:"79°F",
+emergency:"🌀 Cyclone",
+response:"Protect food supplies, clean water, shelters, and communication networks."
+},
+
+sriLanka: {
+name:"🇱🇰 Sri Lanka",
+description:"A tropical island with major agricultural, coastal, and freshwater resources.",
+climate:"Tropical",
+population:"22 million",
+resource:"Agriculture",
+risk:"🌊 Flooding",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:80,
+wind:35,
+battery:65,
+water:76,
+demand:65,
+temperature:"81°F",
+emergency:"🌧️ Severe flooding",
+response:"Protect drinking water, hospitals, food storage, and transportation."
+},
+
+jamaica: {
+name:"🇯🇲 Jamaica",
+description:"A Caribbean island with tropical forests, agriculture, and coastal communities.",
+climate:"Tropical",
+population:"2.8 million",
+resource:"Agriculture",
+risk:"🌀 Hurricanes",
+renewable:"☀️ Solar",
+priority:"🏠 Shelters",
+solar:86,
+wind:28,
+battery:65,
+water:70,
+demand:63,
+temperature:"84°F",
+emergency:"🌀 Hurricane",
+response:"Protect shelters, hospitals, drinking water, and emergency communication."
+},
+
+cuba: {
+name:"🇨🇺 Cuba",
+description:"A large Caribbean island with extensive agriculture and coastal communities.",
+climate:"Tropical",
+population:"11 million",
+resource:"Agriculture",
+risk:"🌀 Hurricanes",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:88,
+wind:30,
+battery:63,
+water:73,
+demand:65,
+temperature:"82°F",
+emergency:"🌀 Hurricane",
+response:"Protect food, water, hospitals, and evacuation routes."
+},
+
+cyprus: {
+name:"🇨🇾 Cyprus",
+description:"A Mediterranean island facing heat, drought, and increasing pressure on water supplies.",
+climate:"Mediterranean",
+population:"1.3 million",
+resource:"Agriculture",
+risk:"🔥 Wildfires",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:94,
+wind:35,
+battery:78,
+water:48,
+demand:75,
+temperature:"91°F",
+emergency:"🔥 Wildfire",
+response:"Protect water systems, evacuation routes, hospitals, and firefighting resources."
+},
+
+crete: {
+name:"🇬🇷 Crete",
+description:"A Mediterranean island with agriculture, tourism, and strong solar-energy potential.",
+climate:"Mediterranean",
+population:"630,000",
+resource:"Agriculture",
+risk:"🔥 Wildfires",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:93,
+wind:40,
+battery:76,
+water:52,
+demand:73,
+temperature:"89°F",
+emergency:"🔥 Wildfire",
+response:"Protect water pumps, emergency shelters, farms, and communication systems."
+},
+
+sardinia: {
+name:"🇮🇹 Sardinia",
+description:"A Mediterranean island with extensive coastline, agriculture, and renewable-energy potential.",
+climate:"Mediterranean",
+population:"1.6 million",
+resource:"Agriculture",
+risk:"🔥 Wildfires",
+renewable:"☀️ Solar + 🌬️ Wind",
+priority:"💧 Water",
+solar:92,
+wind:42,
+battery:76,
+water:55,
+demand:70,
+temperature:"88°F",
+emergency:"🔥 Wildfire",
+response:"Protect water supplies, farms, emergency roads, and evacuation zones."
+},
+
+sicily: {
+name:"🇮🇹 Sicily",
+description:"A large Mediterranean island with agriculture, cities, and volcanic landscapes.",
+climate:"Mediterranean",
+population:"4.8 million",
+resource:"Agriculture",
+risk:"🌋 Volcanoes",
+renewable:"☀️ Solar",
+priority:"🏥 Hospitals",
+solar:93,
+wind:38,
+battery:74,
+water:58,
+demand:74,
+temperature:"90°F",
+emergency:"🌋 Volcanic emergency",
+response:"Protect hospitals, evacuation routes, water infrastructure, and communication systems."
+},
+
+corsica: {
+name:"🇫🇷 Corsica",
+description:"A mountainous Mediterranean island with forests, coastal communities, and tourism.",
+climate:"Mediterranean",
+population:"350,000",
+resource:"Forests",
+risk:"🔥 Wildfires",
+renewable:"☀️ Solar",
+priority:"🌲 Forest protection",
+solar:90,
+wind:35,
+battery:70,
+water:60,
+demand:65,
+temperature:"86°F",
+emergency:"🔥 Wildfire",
+response:"Protect forests, water supplies, roads, and evacuation routes."
+},
+
+tasmania: {
+name:"🇦🇺 Tasmania",
+description:"A cool island with forests, farms, mountains, and hydropower resources.",
+climate:"Temperate",
+population:"570,000",
+resource:"Hydropower",
+risk:"🔥 Bushfires",
+renewable:"💧 Hydropower",
+priority:"🌲 Forests",
+solar:65,
+wind:55,
+battery:78,
+water:88,
+demand:58,
+temperature:"58°F",
+emergency:"🔥 Bushfire",
+response:"Protect forests, water, power infrastructure, and evacuation routes."
+},
+
+northIsland: {
+name:"🇳🇿 North Island",
+description:"New Zealand's most populated island with volcanic zones, farms, forests, and cities.",
+climate:"Temperate",
+population:"4 million",
+resource:"Agriculture",
+risk:"🌋 Earthquakes",
+renewable:"💧 Hydropower",
+priority:"🏥 Hospitals",
+solar:60,
+wind:58,
+battery:82,
+water:85,
+demand:66,
+temperature:"62°F",
+emergency:"🌎 Earthquake",
+response:"Protect hospitals, communications, water systems, and emergency transportation."
+},
+
+southIsland: {
+name:"🇳🇿 South Island",
+description:"A mountainous island with glaciers, farms, forests, and abundant hydropower.",
+climate:"Temperate",
+population:"800,000",
+resource:"Hydropower",
+risk:"🌎 Earthquakes",
+renewable:"💧 Hydropower",
+priority:"⚡ Energy",
+solar:55,
+wind:62,
+battery:85,
+water:92,
+demand:54,
+temperature:"55°F",
+emergency:"🌎 Earthquake",
+response:"Protect power stations, roads, hospitals, and isolated communities."
+},
+
+borneo: {
+name:"🌏 Borneo",
+description:"A massive tropical island containing rainforests, rivers, farms, and diverse wildlife.",
+climate:"Tropical",
+population:"23 million",
+resource:"Rainforest + Water",
+risk:"🌧️ Flooding",
+renewable:"☀️ Solar + 💧 Hydropower",
+priority:"💧 Water",
+solar:78,
+wind:22,
+battery:62,
+water:90,
+demand:60,
+temperature:"82°F",
+emergency:"🌧️ Major flooding",
+response:"Protect river communities, clean water, food supplies, and wildlife habitats."
+},
+
+java: {
+name:"🇮🇩 Java",
+description:"A densely populated Indonesian island with cities, farms, volcanoes, and major infrastructure.",
+climate:"Tropical",
+population:"150 million+",
+resource:"Agriculture",
+risk:"🌋 Volcanoes",
+renewable:"☀️ Solar",
+priority:"🏥 Hospitals",
+solar:78,
+wind:25,
+battery:63,
+water:72,
+demand:86,
+temperature:"82°F",
+emergency:"🌋 Volcanic emergency",
+response:"Prioritize hospitals, evacuation routes, communications, and drinking water."
+},
+
+sumatra: {
+name:"🇮🇩 Sumatra",
+description:"A large tropical island with rainforests, farms, mountains, and coastal communities.",
+climate:"Tropical",
+population:"60 million",
+resource:"Agriculture + Forests",
+risk:"🌋 Earthquakes",
+renewable:"💧 Hydropower",
+priority:"🏠 Communities",
+solar:76,
+wind:25,
+battery:65,
+water:86,
+demand:65,
+temperature:"81°F",
+emergency:"🌎 Earthquake",
+response:"Protect remote communities, hospitals, water systems, and communication networks."
+},
+
+sulawesi: {
+name:"🇮🇩 Sulawesi",
+description:"A tropical island with mountainous terrain, forests, farms, and coastal settlements.",
+climate:"Tropical",
+population:"20 million",
+resource:"Agriculture",
+risk:"🌎 Earthquakes",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:80,
+wind:30,
+battery:64,
+water:82,
+demand:59,
+temperature:"81°F",
+emergency:"🌎 Earthquake",
+response:"Protect water, emergency shelters, roads, and communication systems."
+},
+
+palawan: {
+name:"🇵🇭 Palawan",
+description:"A biodiverse Philippine island with forests, coral reefs, farms, and coastal communities.",
+climate:"Tropical",
+population:"1.2 million",
+resource:"Marine ecosystems",
+risk:"🌀 Typhoons",
+renewable:"☀️ Solar",
+priority:"🌊 Coastal protection",
+solar:82,
+wind:40,
+battery:62,
+water:78,
+demand:55,
+temperature:"83°F",
+emergency:"🌀 Typhoon",
+response:"Protect coastal communities, reefs, drinking water, and emergency shelters."
+},
+
+luzon: {
+name:"🇵🇭 Luzon",
+description:"The Philippines' largest island and home to major cities, farms, and volcanic zones.",
+climate:"Tropical",
+population:"64 million+",
+resource:"Agriculture",
+risk:"🌀 Typhoons",
+renewable:"☀️ Solar + 🌬️ Wind",
+priority:"🏥 Hospitals",
+solar:80,
+wind:45,
+battery:60,
+water:73,
+demand:84,
+temperature:"82°F",
+emergency:"🌀 Typhoon",
+response:"Protect hospitals, shelters, communications, water, and electrical infrastructure."
+},
+
+mindanao: {
+name:"🇵🇭 Mindanao",
+description:"A tropical island with large agricultural regions, forests, and coastal communities.",
+climate:"Tropical",
+population:"27 million",
+resource:"Agriculture",
+risk:"🌀 Typhoons",
+renewable:"☀️ Solar",
+priority:"🌾 Food",
+solar:82,
+wind:35,
+battery:65,
+water:80,
+demand:62,
+temperature:"82°F",
+emergency:"🌀 Typhoon",
+response:"Protect food production, water, shelters, and emergency transportation."
+},
+
+okinawa: {
+name:"🇯🇵 Okinawa",
+description:"A subtropical Japanese island chain exposed to typhoons and coastal hazards.",
+climate:"Subtropical",
+population:"1.4 million",
+resource:"Marine ecosystems",
+risk:"🌀 Typhoons",
+renewable:"☀️ Solar",
+priority:"🏥 Hospitals",
+solar:84,
+wind:45,
+battery:78,
+water:75,
+demand:70,
+temperature:"79°F",
+emergency:"🌀 Typhoon",
+response:"Protect hospitals, coastal infrastructure, water, and communication systems."
+},
+
+honshu: {
+name:"🇯🇵 Honshu",
+description:"Japan's largest and most populated island, containing major cities and mountains.",
+climate:"Temperate",
+population:"100 million+",
+resource:"Technology + Industry",
+risk:"🌎 Earthquakes",
+renewable:"☀️ Solar + 💧 Hydropower",
+priority:"🏥 Hospitals",
+solar:65,
+wind:40,
+battery:88,
+water:85,
+demand:90,
+temperature:"65°F",
+emergency:"🌎 Earthquake",
+response:"Protect hospitals, transportation, communications, and power infrastructure."
+},
+
+kyushu: {
+name:"🇯🇵 Kyushu",
+description:"A subtropical Japanese island with volcanoes, farms, forests, and major cities.",
+climate:"Subtropical",
+population:"12 million",
+resource:"Agriculture",
+risk:"🌋 Volcanoes",
+renewable:"♨️ Geothermal",
+priority:"🏥 Hospitals",
+solar:80,
+wind:40,
+battery:82,
+water:82,
+demand:70,
+temperature:"72°F",
+emergency:"🌋 Volcanic emergency",
+response:"Protect hospitals, evacuation routes, water, and geothermal energy systems."
+},
+
+shikoku: {
+name:"🇯🇵 Shikoku",
+description:"A mountainous Japanese island with agriculture, forests, and coastal communities.",
+climate:"Temperate",
+population:"3.6 million",
+resource:"Agriculture",
+risk:"🌧️ Flooding",
+renewable:"💧 Hydropower",
+priority:"💧 Water",
+solar:70,
+wind:42,
+battery:80,
+water:86,
+demand:60,
+temperature:"68°F",
+emergency:"🌧️ Flooding",
+response:"Protect water systems, bridges, hospitals, and isolated communities."
+},
+
+taiwan: {
+name:"🇹🇼 Taiwan",
+description:"A mountainous island with dense cities, advanced technology, farms, and forests.",
+climate:"Subtropical",
+population:"23 million",
+resource:"Technology",
+risk:"🌎 Earthquakes",
+renewable:"☀️ Solar + 🌬️ Wind",
+priority:"⚡ Power",
+solar:75,
+wind:48,
+battery:78,
+water:75,
+demand:88,
+temperature:"78°F",
+emergency:"🌎 Earthquake",
+response:"Protect hospitals, communications, semiconductor infrastructure, water, and power."
+},
+
+puertoRico: {
+name:"🇵🇷 Puerto Rico",
+description:"A Caribbean island with tropical forests, mountains, cities, and coastal communities.",
+climate:"Tropical",
+population:"3.2 million",
+resource:"Tourism + Agriculture",
+risk:"🌀 Hurricanes",
+renewable:"☀️ Solar",
+priority:"⚡ Power",
+solar:88,
+wind:35,
+battery:62,
+water:68,
+demand:72,
+temperature:"84°F",
+emergency:"🌀 Hurricane",
+response:"Protect power, hospitals, water, shelters, and communication systems."
+},
+
+bermuda: {
+name:"🇧🇲 Bermuda",
+description:"A small Atlantic island group with a highly developed coastal community.",
+climate:"Subtropical",
+population:"64,000",
+resource:"Tourism",
+risk:"🌀 Hurricanes",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:82,
+wind:45,
+battery:70,
+water:60,
+demand:65,
+temperature:"76°F",
+emergency:"🌀 Hurricane",
+response:"Protect water collection, shelters, hospitals, and coastal infrastructure."
+},
+
+bahamas: {
+name:"🇧🇸 The Bahamas",
+description:"A low-lying Caribbean island nation with extensive coastlines and tourism.",
+climate:"Tropical",
+population:"400,000",
+resource:"Tourism + Marine life",
+risk:"🌀 Hurricanes",
+renewable:"☀️ Solar",
+priority:"🌊 Coastal protection",
+solar:90,
+wind:42,
+battery:66,
+water:58,
+demand:67,
+temperature:"83°F",
+emergency:"🌀 Hurricane",
+response:"Protect coastal communities, fresh water, shelters, and power systems."
+},
+
+barbados: {
+name:"🇧🇧 Barbados",
+description:"A Caribbean island with tourism, agriculture, and vulnerable coastal communities.",
+climate:"Tropical",
+population:"280,000",
+resource:"Tourism",
+risk:"🌀 Hurricanes",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:91,
+wind:35,
+battery:68,
+water:62,
+demand:65,
+temperature:"82°F",
+emergency:"🌀 Hurricane",
+response:"Protect fresh water, hospitals, shelters, and coastal infrastructure."
+},
+
+trinidad: {
+name:"🇹🇹 Trinidad",
+description:"A tropical Caribbean island with energy resources, forests, cities, and industry.",
+climate:"Tropical",
+population:"1.4 million",
+resource:"Energy",
+risk:"🌧️ Flooding",
+renewable:"☀️ Solar",
+priority:"⚡ Energy",
+solar:86,
+wind:28,
+battery:70,
+water:75,
+demand:73,
+temperature:"83°F",
+emergency:"🌧️ Flooding",
+response:"Protect energy infrastructure, roads, hospitals, and water systems."
+},
+
+dominica: {
+name:"🇩🇲 Dominica",
+description:"A mountainous Caribbean island famous for rainforests, rivers, and biodiversity.",
+climate:"Tropical",
+population:"70,000",
+resource:"Forests + Water",
+risk:"🌀 Hurricanes",
+renewable:"💧 Hydropower",
+priority:"💧 Water",
+solar:75,
+wind:38,
+battery:60,
+water:94,
+demand:48,
+temperature:"82°F",
+emergency:"🌀 Hurricane",
+response:"Protect water systems, forests, shelters, and communication networks."
+},
+
+grenada: {
+name:"🇬🇩 Grenada",
+description:"A tropical Caribbean island with agriculture, forests, mountains, and tourism.",
+climate:"Tropical",
+population:"125,000",
+resource:"Agriculture",
+risk:"🌀 Hurricanes",
+renewable:"☀️ Solar",
+priority:"🌾 Food",
+solar:89,
+wind:34,
+battery:65,
+water:76,
+demand:55,
+temperature:"82°F",
+emergency:"🌀 Hurricane",
+response:"Protect farms, food storage, water, shelters, and hospitals."
+},
+
+fiji: {
+name:"🇫🇯 Fiji",
+description:"A Pacific island nation with tropical forests, reefs, farms, and coastal communities.",
+climate:"Tropical",
+population:"930,000",
+resource:"Marine ecosystems",
+risk:"🌀 Cyclones",
+renewable:"💧 Hydropower",
+priority:"🌊 Coastal protection",
+solar:84,
+wind:35,
+battery:65,
+water:82,
+demand:55,
+temperature:"81°F",
+emergency:"🌀 Cyclone",
+response:"Protect coastal communities, clean water, reefs, and emergency shelters."
+},
+
+samoa: {
+name:"🇼🇸 Samoa",
+description:"A Pacific island nation with volcanic landscapes, forests, reefs, and villages.",
+climate:"Tropical",
+population:"220,000",
+resource:"Agriculture",
+risk:"🌊 Coastal flooding",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:85,
+wind:32,
+battery:63,
+water:86,
+demand:48,
+temperature:"82°F",
+emergency:"🌊 Coastal flooding",
+response:"Protect drinking water, villages, roads, and coastal ecosystems."
+},
+
+tonga: {
+name:"🇹🇴 Tonga",
+description:"A Pacific island kingdom made up of many low-lying islands.",
+climate:"Tropical",
+population:"105,000",
+resource:"Marine ecosystems",
+risk:"🌊 Tsunami",
+renewable:"☀️ Solar",
+priority:"🏠 Evacuation",
+solar:88,
+wind:35,
+battery:62,
+water:68,
+demand:45,
+temperature:"81°F",
+emergency:"🌊 Tsunami",
+response:"Prioritize evacuation alerts, shelters, communication, and drinking water."
+},
+
+tahiti: {
+name:"🇵🇫 Tahiti",
+description:"A volcanic French Polynesian island with mountains, reefs, forests, and tourism.",
+climate:"Tropical",
+population:"190,000",
+resource:"Tourism + Marine life",
+risk:"🌊 Coastal flooding",
+renewable:"☀️ Solar",
+priority:"🌊 Coastal protection",
+solar:86,
+wind:32,
+battery:67,
+water:88,
+demand:58,
+temperature:"82°F",
+emergency:"🌊 Coastal flooding",
+response:"Protect coastal communities, water, tourism infrastructure, and evacuation routes."
+},
+
+guam: {
+name:"🇬🇺 Guam",
+description:"A tropical Pacific island with important transportation, military, and coastal infrastructure.",
+climate:"Tropical",
+population:"170,000",
+resource:"Tourism",
+risk:"🌀 Typhoons",
+renewable:"☀️ Solar",
+priority:"🏥 Emergency services",
+solar:88,
+wind:40,
+battery:70,
+water:72,
+demand:70,
+temperature:"84°F",
+emergency:"🌀 Typhoon",
+response:"Protect hospitals, communication networks, water, and emergency shelters."
+},
+
+seychelles: {
+name:"🇸🇨 Seychelles",
+description:"An Indian Ocean island nation known for forests, reefs, beaches, and biodiversity.",
+climate:"Tropical",
+population:"100,000",
+resource:"Marine ecosystems",
+risk:"🌊 Coastal flooding",
+renewable:"☀️ Solar",
+priority:"🌊 Coastlines",
+solar:88,
+wind:35,
+battery:65,
+water:80,
+demand:52,
+temperature:"82°F",
+emergency:"🌊 Coastal flooding",
+response:"Protect freshwater, reefs, coastlines, and emergency shelters."
+},
+
+mauritius: {
+name:"🇲🇺 Mauritius",
+description:"A volcanic Indian Ocean island with tourism, agriculture, reefs, and coastal communities.",
+climate:"Tropical",
+population:"1.3 million",
+resource:"Tourism + Agriculture",
+risk:"🌀 Cyclones",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:89,
+wind:35,
+battery:70,
+water:75,
+demand:65,
+temperature:"80°F",
+emergency:"🌀 Cyclone",
+response:"Protect water, hospitals, agriculture, and coastal communities."
+},
+
+zanzibar: {
+name:"🇹🇿 Zanzibar",
+description:"A tropical East African island with agriculture, fishing, tourism, and coastal ecosystems.",
+climate:"Tropical",
+population:"1.9 million",
+resource:"Agriculture + Fisheries",
+risk:"🌊 Coastal flooding",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:87,
+wind:30,
+battery:60,
+water:72,
+demand:55,
+temperature:"82°F",
+emergency:"🌊 Coastal flooding",
+response:"Protect drinking water, fishing communities, farms, and emergency shelters."
+},
+
+corfu: {
+name:"🇬🇷 Corfu",
+description:"A Mediterranean island with forests, olive farms, tourism, and coastal communities.",
+climate:"Mediterranean",
+population:"100,000",
+resource:"Agriculture + Tourism",
+risk:"🔥 Wildfires",
+renewable:"☀️ Solar",
+priority:"🌲 Forests",
+solar:91,
+wind:34,
+battery:72,
+water:61,
+demand:64,
+temperature:"87°F",
+emergency:"🔥 Wildfire",
+response:"Protect forests, water supplies, evacuation roads, and homes."
+},
+
+mykonos: {
+name:"🇬🇷 Mykonos",
+description:"A dry Mediterranean island heavily dependent on tourism and limited freshwater resources.",
+climate:"Mediterranean",
+population:"20,000+",
+resource:"Tourism",
+risk:"💧 Drought",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:95,
+wind:48,
+battery:76,
+water:38,
+demand:82,
+temperature:"91°F",
+emergency:"💧 Water shortage",
+response:"Prioritize drinking water and hospitals while reducing tourism-related energy and water use."
+},
+
+santorini: {
+name:"🇬🇷 Santorini",
+description:"A volcanic Mediterranean island with tourism, limited freshwater, and dramatic coastal terrain.",
+climate:"Mediterranean",
+population:"15,000+",
+resource:"Tourism",
+risk:"🌋 Volcanic activity",
+renewable:"☀️ Solar",
+priority:"🏥 Emergency services",
+solar:95,
+wind:45,
+battery:75,
+water:42,
+demand:80,
+temperature:"90°F",
+emergency:"🌋 Volcanic emergency",
+response:"Protect evacuation routes, emergency communication, water, and hospitals."
+},
+
+mallorca: {
+name:"🇪🇸 Mallorca",
+description:"A large Mediterranean island with tourism, agriculture, mountains, and coastal cities.",
+climate:"Mediterranean",
+population:"950,000",
+resource:"Tourism",
+risk:"🔥 Wildfires",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:93,
+wind:30,
+battery:78,
+water:53,
+demand:78,
+temperature:"88°F",
+emergency:"🔥 Wildfire",
+response:"Protect water, evacuation routes, hospitals, and forest areas."
+},
+
+ibiza: {
+name:"🇪🇸 Ibiza",
+description:"A Mediterranean island with tourism, forests, beaches, and limited freshwater resources.",
+climate:"Mediterranean",
+population:"160,000",
+resource:"Tourism",
+risk:"🔥 Wildfires",
+renewable:"☀️ Solar",
+priority:"💧 Water",
+solar:94,
+wind:34,
+battery:75,
+water:45,
+demand:85,
+temperature:"90°F",
+emergency:"🔥 Wildfire",
+response:"Protect water, forests, hospitals, and evacuation routes."
+},
+
+canary: {
+name:"🇪🇸 Canary Islands",
+description:"A volcanic Atlantic island group with tourism, agriculture, and strong solar resources.",
+climate:"Subtropical",
+population:"2.2 million",
+resource:"Tourism + Agriculture",
+risk:"🌋 Volcanoes",
+renewable:"☀️ Solar + 🌬️ Wind",
+priority:"💧 Water",
+solar:96,
+wind:55,
+battery:78,
+water:52,
+demand:74,
+temperature:"77°F",
+emergency:"🌋 Volcanic emergency",
+response:"Protect evacuation routes, water systems, hospitals, and communication networks."
+},
+
+azores: {
+name:"🇵🇹 Azores",
+description:"A volcanic Atlantic island group with green landscapes, farms, and geothermal potential.",
+climate:"Oceanic",
+population:"240,000",
+resource:"Geothermal energy",
+risk:"🌋 Volcanic activity",
+renewable:"♨️ Geothermal",
+priority:"⚡ Energy",
+solar:55,
+wind:60,
+battery:80,
+water:90,
+demand:55,
+temperature:"64°F",
+emergency:"🌋 Volcanic emergency",
+response:"Protect geothermal energy, roads, water, communications, and evacuation routes."
+},
+
+madeira: {
+name:"🇵🇹 Madeira",
+description:"A mountainous Atlantic island with forests, agriculture, tourism, and steep terrain.",
+climate:"Subtropical",
+population:"250,000",
+resource:"Hydropower",
+risk:"🌧️ Landslides",
+renewable:"💧 Hydropower",
+priority:"🛣️ Roads",
+solar:78,
+wind:50,
+battery:75,
+water:84,
+demand:62,
+temperature:"69°F",
+emergency:"🌧️ Heavy rain / landslide",
+response:"Protect roads, water infrastructure, hospitals, and isolated communities."
+},
+
+man: {
+name:"🇮🇲 Isle of Man",
+description:"A self-governing island in the Irish Sea with hills, farms, and coastal communities.",
+climate:"Oceanic",
+population:"85,000",
+resource:"Agriculture",
+risk:"🌧️ Severe storms",
+renewable:"🌬️ Wind",
+priority:"⚡ Energy",
+solar:45,
+wind:72,
+battery:75,
+water:88,
+demand:58,
+temperature:"55°F",
+emergency:"🌧️ Severe storm",
+response:"Protect power, communications, roads, and emergency services."
+},
+
+vancouver: {
+name:"🇨🇦 Vancouver Island",
+description:"A large Pacific island with forests, mountains, cities, and coastal communities.",
+climate:"Temperate",
+population:"870,000",
+resource:"Forests",
+risk:"🔥 Wildfires",
+renewable:"💧 Hydropower",
+priority:"🌲 Forests",
+solar:52,
+wind:60,
+battery:82,
+water:90,
+demand:65,
+temperature:"58°F",
+emergency:"🔥 Wildfire",
+response:"Protect forests, water, power infrastructure, and evacuation routes."
+},
+
+newfoundland: {
+name:"🇨🇦 Newfoundland",
+description:"A North Atlantic island with fishing communities, forests, lakes, and rugged coastlines.",
+climate:"Cold",
+population:"530,000",
+resource:"Fisheries",
+risk:"🌨️ Extreme storms",
+renewable:"🌬️ Wind",
+priority:"🏠 Communities",
+solar:38,
+wind:75,
+battery:76,
+water:94,
+demand:65,
+temperature:"42°F",
+emergency:"🌨️ Severe storm",
+response:"Protect isolated communities, heating, communications, and transportation."
+},
+
+longIsland: {
+name:"🇺🇸 Long Island",
+description:"A densely populated Atlantic island with major coastal communities and infrastructure.",
+climate:"Temperate",
+population:"8 million+",
+resource:"Technology + Services",
+risk:"🌀 Hurricanes",
+renewable:"☀️ Solar + 🌬️ Wind",
+priority:"🏥 Hospitals",
+solar:68,
+wind:48,
+battery:80,
+water:74,
+demand:88,
+temperature:"68°F",
+emergency:"🌀 Hurricane",
+response:"Protect hospitals, electrical infrastructure, transportation, and coastal communities."
+},
+
+capeBreton: {
+name:"🇨🇦 Cape Breton Island",
+description:"A Canadian island with forests, coastal communities, lakes, and fishing traditions.",
+climate:"Temperate",
+population:"94,000",
+resource:"Forests + Fisheries",
+risk:"🌨️ Winter storms",
+renewable:"🌬️ Wind",
+priority:"🔥 Heating",
+solar:40,
+wind:70,
+battery:75,
+water:92,
+demand:62,
+temperature:"39°F",
+emergency:"🌨️ Winter storm",
+response:"Protect heating, roads, communications, and isolated communities."
+}
+
+};
+
+
+/* ==========================================
+   SELECT ISLAND
+========================================== */
+
+function chooseIsland() {
+
+  let selected =
+    document.getElementById("islandSelect").value;
+
+  let data = islands[selected];
+
+
+  document.getElementById("islandName").innerHTML =
+    data.name;
+
+  document.getElementById("description").innerHTML =
+    data.description;
+
+  document.getElementById("climate").innerHTML =
+    data.climate;
+
+  document.getElementById("population").innerHTML =
+    data.population;
+
+  document.getElementById("resource").innerHTML =
+    data.resource;
+
+  document.getElementById("risk").innerHTML =
+    data.risk;
+
+  document.getElementById("renewable").innerHTML =
+    data.renewable;
+
+  document.getElementById("priority").innerHTML =
+    data.priority;
+
+
+  /* DATA */
+
+  document.getElementById("solarValue").innerHTML =
+    data.solar + "%";
+
+  document.getElementById("solarBar").style.width =
+    data.solar + "%";
+
+
+  document.getElementById("windValue").innerHTML =
+    data.wind + " mph";
+
+  document.getElementById("windBar").style.width =
+    Math.min(data.wind,100) + "%";
+
+
+  document.getElementById("batteryValue").innerHTML =
+    data.battery + "%";
+
+  document.getElementById("batteryBar").style.width =
+    data.battery + "%";
+
+
+  document.getElementById("waterValue").innerHTML =
+    data.water + "%";
+
+  document.getElementById("waterBar").style.width =
+    data.water + "%";
+
+
+  document.getElementById("energyValue").innerHTML =
+    data.demand + "%";
+
+  document.getElementById("energyBar").style.width =
+    data.demand + "%";
+
+
+  document.getElementById("tempValue").innerHTML =
+    data.temperature;
+
+
+  resetVisuals();
+
+
+  document.getElementById("alert").innerHTML =
+    "🟢 " + data.name + " conditions are stable.";
+
+}
+
+
+/* ==========================================
+   EMERGENCY
+========================================== */
+
+function simulateEmergency() {
+
+  let selected =
+    document.getElementById("islandSelect").value;
+
+  let data = islands[selected];
+
+
+  document.getElementById("status").innerHTML =
+    "🔴 EMERGENCY MODE";
+
+  document.getElementById("status").style.background =
+    "#542d2b";
+
+
+  let solar =
+    Math.max(data.solar - 50, 15);
+
+  let battery =
+    Math.max(data.battery - 25, 30);
+
+  let water =
+    Math.max(data.water - 18, 30);
+
+
+  document.getElementById("solarValue").innerHTML =
+    solar + "%";
+
+  document.getElementById("solarBar").style.width =
+    solar + "%";
+
+
+  document.getElementById("batteryValue").innerHTML =
+    battery + "%";
+
+  document.getElementById("batteryBar").style.width =
+    battery + "%";
+
+
+  document.getElementById("waterValue").innerHTML =
+    water + "%";
+
+  document.getElementById("waterBar").style.width =
+    water + "%";
+
+
+  document.getElementById("energyValue").innerHTML =
+    Math.min(data.demand + 20,99) + "%";
+
+  document.getElementById("energyBar").style.width =
+    Math.min(data.demand + 20,99) + "%";
+
+
+  document.getElementById("waterStatus").innerHTML =
+    "AT RISK";
+
+  document.getElementById("homesStatus").innerHTML =
+    "ENERGY SAVER";
+
+  document.getElementById("farmStatus").innerHTML =
+    "REDUCED";
+
+
+  document.getElementById("alert").classList.add("danger");
+
+  document.getElementById("alert").innerHTML =
+    "🚨 " +
+    data.emergency +
+    " detected on " +
+    data.name +
+    "!";
+
+
+  document.getElementById("score").innerHTML =
+    "51%";
+
+
+  document.getElementById("chain1").innerHTML =
+    data.emergency;
+
+  document.getElementById("chain2").innerHTML =
+    "⚡ Resource Pressure";
+
+  document.getElementById("chain3").innerHTML =
+    "🔋 Battery ↓";
+
+  document.getElementById("chain4").innerHTML =
+    "⚠️ Critical Systems";
+
+
+  document.getElementById("chainDescription").innerHTML =
+    "The emergency could create a cascade: " +
+    data.response;
+
+
+  document.getElementById("aiBox").innerHTML =
+
+    "<span class='yellow'>⚠️ EMERGENCY DETECTED</span>" +
+
+    "<br><br>" +
+
+    "<b>" +
+    data.name +
+    "</b> is experiencing " +
+    data.emergency +
+
+    "." +
+
+    "<br><br>" +
+
+    "Eco Island has detected a potential chain reaction." +
+
+    "<br><br>" +
+
+    "<b>Island-specific priority:</b> " +
+    data.priority +
+
+    "<br><br>" +
+
+    "Click <b>🤖 Run Eco Island AI</b> to activate the recommended response.";
+
+}
+
+
+/* ==========================================
+   AI
+========================================== */
+
+function runAI() {
+
+  let selected =
+    document.getElementById("islandSelect").value;
+
+  let data = islands[selected];
+
+
+  document.getElementById("status").innerHTML =
+    "🟢 AI RESPONSE ACTIVE";
+
+  document.getElementById("status").style.background =
+    "#18553e";
+
+
+  document.getElementById("batteryValue").innerHTML =
+    Math.min(data.battery - 8,85) + "%";
+
+  document.getElementById("batteryBar").style.width =
+    Math.min(data.battery - 8,85) + "%";
+
+
+  document.getElementById("waterValue").innerHTML =
+    Math.min(data.water + 2,95) + "%";
+
+  document.getElementById("waterBar").style.width =
+    Math.min(data.water + 2,95) + "%";
+
+
+  document.getElementById("energyValue").innerHTML =
+    "64%";
+
+  document.getElementById("energyBar").style.width =
+    "64%";
+
+
+  document.getElementById("waterStatus").innerHTML =
+    "PROTECTED";
+
+  document.getElementById("homesStatus").innerHTML =
+    "ENERGY SAVER";
+
+  document.getElementById("farmStatus").innerHTML =
+    "REDUCED";
+
+
+  document.getElementById("score").innerHTML =
+    "87%";
+
+
+  document.getElementById("alert").classList.remove("danger");
+
+  document.getElementById("alert").innerHTML =
+    "✅ Emergency contained. Eco Island protected the island's highest-priority resources.";
+
+
+  document.getElementById("aiBox").innerHTML =
+
+    "<span class='green'>🤖 PERSONALIZED ECO ISLAND RESPONSE</span>" +
+
+    "<br><br>" +
+
+    "<b>Island:</b> " +
+    data.name +
+
+    "<br>" +
+
+    "<b>Emergency:</b> " +
+    data.emergency +
+
+    "<br><br>" +
+
+    "<b>Why this plan?</b>" +
+
+    "<br>" +
+
+    data.response +
+
+    "<br><br>" +
+
+    "<div class='decision'>" +
+
+    "🏥 <span class='green'>Emergency Services:</span> PROTECTED" +
+
+    "<br>" +
+
+    "💧 <span class='green'>Water:</span> PROTECTED" +
+
+    "<br>" +
+
+    "🏠 <span class='yellow'>Homes:</span> ENERGY SAVER" +
+
+    "<br>" +
+
+    "🌱 <span class='yellow'>Food:</span> REDUCED USE" +
+
+    "<br>" +
+
+    "🚗 <span class='red'>Nonessential Transport:</span> PAUSED" +
+
+    "<br>" +
+
+    "💡 <span class='red'>Nonessential Energy:</span> REDUCED" +
+
+    "</div>" +
+
+    "<br>" +
+
+    "<span class='green'><b>Island Resilience: 51% → 87%</b></span>";
+
+}
+
+
+/* ==========================================
+   RESET
+========================================== */
+
+function resetIsland() {
+
+  chooseIsland();
+
+}
+
+
+function resetVisuals() {
+
+  document.getElementById("status").innerHTML =
+    "🟢 NORMAL MODE";
+
+  document.getElementById("status").style.background =
+    "#18553e";
+
+
+  document.getElementById("alert").classList.remove("danger");
+
+
+  document.getElementById("score").innerHTML =
+    "92%";
+
+
+  document.getElementById("waterStatus").innerHTML =
+    "ONLINE";
+
+  document.getElementById("homesStatus").innerHTML =
+    "NORMAL";
+
+  document.getElementById("farmStatus").innerHTML =
+    "NORMAL";
+
+
+  document.getElementById("chain1").innerHTML =
+    "🌪️ Emergency";
+
+  document.getElementById("chain2").innerHTML =
+    "⚡ Energy ↓";
+
+  document.getElementById("chain3").innerHTML =
+    "🔋 Battery ↓";
+
+  document.getElementById("chain4").innerHTML =
+    "💧 Critical Resource";
+
+
+  document.getElementById("chainDescription").innerHTML =
+    "Eco Island watches for problems that can spread from one system to another.";
+
+
+  document.getElementById("aiBox").innerHTML =
+
+    "<span class='green'>SYSTEM READY</span>" +
+
+    "<br><br>" +
+
+    "Choose an island and simulate an emergency." +
+
+    "<br><br>" +
+
+    "Eco Island will analyze that island's unique environment and create a personalized emergency strategy.";
+
+}
+
+
+/* LOAD FIRST ISLAND */
+
+chooseIsland();
+
+</script>
+
+</body>
+</html>
